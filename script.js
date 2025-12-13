@@ -161,8 +161,9 @@ function highlightText(text, query) {
 
     // Escape special regex characters
     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escapedQuery})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
+    // Use word boundary regex to only highlight whole words
+    const regex = new RegExp(`(^|[\\s.,!?;:'"()\\[\\]{}«»""''—–-])(${escapedQuery})($|[\\s.,!?;:'"()\\[\\]{}«»""''—–-])`, 'gi');
+    return text.replace(regex, '$1<mark>$2</mark>$3');
 }
 
 // Show a specific post
