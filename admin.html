@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Review - Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Override body overflow from styles.css */
+        body {
+            overflow: auto !important;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+            background: #fafafa;
+        }
+
+        .admin-sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .admin-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            background: #000;
+            color: white;
+        }
+
+        .admin-header h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-stats {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .admin-filters {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .filter-btn.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .filter-count {
+            float: right;
+            opacity: 0.6;
+        }
+
+        .admin-posts-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .admin-post-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-post-item:hover {
+            border-color: #000;
+        }
+
+        .admin-post-item.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .admin-post-item.flagged-remove {
+            border-left: 3px solid #dc3545;
+        }
+
+        .admin-post-item.flagged-title {
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-post-item.flagged-content {
+            border-left: 3px solid #17a2b8;
+        }
+
+        .admin-post-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .admin-post-date {
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .admin-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .admin-content-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .admin-content-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-content-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .admin-content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            padding-bottom: 6rem;
+        }
+
+        .admin-actions {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e0e0e0;
+            background: #fafafa;
+            display: flex;
+            gap: 1rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 300px;
+            z-index: 10;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #000;
+            background: white;
+            color: #000;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #000;
+            color: white;
+        }
+
+        .action-btn.active {
+            background: #000;
+            color: white;
+        }
+
+        .action-btn.btn-remove {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .action-btn.btn-remove:hover,
+        .action-btn.btn-remove.active {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-btn.btn-title {
+            border-color: #ffc107;
+            color: #c79100;
+        }
+
+        .action-btn.btn-title:hover,
+        .action-btn.btn-title.active {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .action-btn.btn-content {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .action-btn.btn-content:hover,
+        .action-btn.btn-content.active {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .export-section {
+            padding: 1rem 2rem;
+            border-top: 1px solid #e0e0e0;
+            background: #f5f5f5;
+            text-align: center;
+        }
+
+        .export-btn {
+            padding: 0.75rem 2rem;
+            background: #000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .export-btn:hover {
+            background: #333;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #999;
+        }
+
+        .editable-title {
+            position: relative;
+        }
+
+        .edit-title-btn {
+            display: inline-block;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            background: #ffc107;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .edit-title-btn:hover {
+            background: #e0a800;
+        }
+
+        .title-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 2px solid #ffc107;
+            margin-top: 0.5rem;
+            font-family: inherit;
+        }
+
+        .edit-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            margin: -1rem -1rem 1rem -1rem;
+            border-bottom: 2px solid #ffc107;
+            z-index: 20;
+        }
+
+        .save-btn, .cancel-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .save-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #218838;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: #5a6268;
+        }
+
+        .content-editable {
+            border: 2px solid #17a2b8;
+            padding: 1rem;
+            min-height: 200px;
+            outline: none;
+        }
+
+        .edit-content-btn {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .edit-content-btn:hover {
+            background: #138496;
+        }
+
+        .editing-indicator {
+            background: #fff3cd;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #ffc107;
+            font-weight: 500;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-header">
+                <h1>📝 Review Posts</h1>
+                <div class="admin-stats">
+                    <span id="reviewedCount">0</span> / <span id="totalCount">0</span> reviewed
+                </div>
+            </div>
+
+            <div class="admin-filters">
+                <button class="filter-btn active" data-filter="all">
+                    All Posts <span class="filter-count" id="countAll">0</span>
+                </button>
+                <button class="filter-btn" data-filter="pending">
+                    Pending <span class="filter-count" id="countPending">0</span>
+                </button>
+                <button class="filter-btn" data-filter="flagged">
+                    Flagged <span class="filter-count" id="countFlagged">0</span>
+                </button>
+                <button class="filter-btn" data-filter="remove">
+                    🗑️ Remove <span class="filter-count" id="countRemove">0</span>
+                </button>
+                <button class="filter-btn" data-filter="change-title">
+                    ✏️ Change Title <span class="filter-count" id="countTitle">0</span>
+                </button>
+                <button class="filter-btn" data-filter="change-content">
+                    📄 Change Content <span class="filter-count" id="countContent">0</span>
+                </button>
+            </div>
+
+            <div class="admin-posts-list" id="adminPostsList">
+                <!-- Posts will be loaded here -->
+            </div>
+
+            <div class="export-section">
+                <button class="export-btn" onclick="exportReview()">
+                    💾 Export Review Results
+                </button>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="admin-content">
+            <div id="emptyState" class="empty-state">
+                <h2>👈 Select a post to review</h2>
+                <p>Click on any post from the sidebar to start reviewing</p>
+            </div>
+
+            <div id="postReview" style="display: none; flex-direction: column; flex: 1;">
+                <div id="editingIndicator" class="editing-indicator" style="display: none;">
+                    ✏️ Editing Mode - Click Save or Cancel when done
+                </div>
+
+                <div class="admin-content-header">
+                    <div class="editable-title">
+                        <h2 id="reviewTitle"></h2>
+                        <button class="edit-title-btn" onclick="editTitle()">✏️ Edit Title</button>
+                    </div>
+                    <div class="admin-content-date" id="reviewDate"></div>
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" id="prevBtn" onclick="navigatePost(-1)">← Previous</button>
+                        <button class="nav-btn" id="nextBtn" onclick="navigatePost(1)">Next →</button>
+                    </div>
+                </div>
+
+                <button class="edit-content-btn" id="editContentBtn" onclick="editContent()">
+                    ✏️ Edit Content
+                </button>
+
+                <div class="admin-content-body" id="reviewContent">
+                    <!-- Content will be loaded here -->
+                </div>
+
+                <div class="admin-actions">
+                    <button class="action-btn" id="btnOk" onclick="flagPost('ok')">
+                        ✓ Keep As Is
+                    </button>
+                    <button class="action-btn btn-title" id="btnTitle" onclick="flagPost('change-title')">
+                        ✏️ Change Title
+                    </button>
+                    <button class="action-btn btn-content" id="btnContent" onclick="flagPost('change-content')">
+                        📄 Change Content
+                    </button>
+                    <button class="action-btn btn-remove" id="btnRemove" onclick="flagPost('remove')">
+                        🗑️ Remove Post
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
