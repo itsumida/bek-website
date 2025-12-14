@@ -306,9 +306,7 @@ mark {
         max-height: none;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
-        position: sticky;
-        top: 0;
-        z-index: 10;
+        position: relative;
         background-color: var(--bg-secondary);
     }
 
@@ -322,7 +320,7 @@ mark {
 
     .posts-list {
         padding: 1rem 1.5rem;
-        max-height: 60vh;
+        max-height: 40vh;
     }
 
     .content {
