@@ -290,8 +290,132 @@ function setupSearch() {
     });
 }
 
+// Mobile sidebar toggle functionality
+function setupSidebarToggle() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (sidebarToggle && sidebar && overlay) {
+        // Toggle sidebar on button click
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = sidebar.classList.toggle('open');
+            if (isOpen) {
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close sidebar when clicking overlay
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        // Close sidebar when a post is selected on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && e.target.classList.contains('post-link')) {
+                setTimeout(() => {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }, 200);
+            }
+        });
+
+        // Clean up on window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+}
+
+// Copy to clipboard helper function
+function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            showCopyFeedback();
+        }).catch(() => {
+            fallbackCopyToClipboard(text);
+        });
+    } else {
+        fallbackCopyToClipboard(text);
+    }
+}
+
+// Fallback copy method for older browsers
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        showCopyFeedback();
+    } catch (err) {
+        console.error('Failed to copy:', err);
+    }
+    document.body.removeChild(textArea);
+}
+
+// Show copy feedback
+function showCopyFeedback() {
+    const shareButton = document.getElementById('shareButton');
+    const originalText = shareButton.querySelector('span').textContent;
+    shareButton.querySelector('span').textContent = 'Link copied!';
+    shareButton.style.borderColor = 'var(--text-primary)';
+
+    setTimeout(() => {
+        shareButton.querySelector('span').textContent = originalText;
+        shareButton.style.borderColor = 'var(--border-color)';
+    }, 2000);
+}
+
+// Share button functionality
+function setupShareButton() {
+    const shareButton = document.getElementById('shareButton');
+
+    if (shareButton) {
+        shareButton.addEventListener('click', async () => {
+            const currentUrl = window.location.href;
+            const postTitle = document.querySelector('.post-content h2')?.textContent || 'Blog Post';
+
+            // Try to use native share API if available (mobile)
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: postTitle,
+                        url: currentUrl
+                    });
+                } catch (err) {
+                    // User cancelled or share failed, fallback to copy
+                    if (err.name !== 'AbortError') {
+                        copyToClipboard(currentUrl);
+                    }
+                }
+            } else {
+                // Fallback: copy to clipboard
+                copyToClipboard(currentUrl);
+            }
+        });
+    }
+}
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
     loadPosts();
     setupSearch();
+    setupSidebarToggle();
+    setupShareButton();
 });

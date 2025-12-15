@@ -289,6 +289,81 @@ mark {
     color: #000;
 }
 
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1001;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--hover-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.95);
+}
+
+.sidebar-toggle svg {
+    display: block;
+    color: var(--text-primary);
+}
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Share Button */
+.share-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.share-button:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--text-primary);
+}
+
+.share-button svg {
+    color: var(--text-primary);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
@@ -301,13 +376,29 @@ mark {
         min-height: 100vh;
     }
 
+    /* Show toggle button on mobile */
+    .sidebar-toggle {
+        display: block;
+    }
+
     .sidebar {
-        width: 100%;
-        max-height: none;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        position: relative;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        border-right: 1px solid var(--border-color);
+        border-bottom: none;
         background-color: var(--bg-secondary);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
     }
 
     .sidebar-header {
@@ -320,7 +411,7 @@ mark {
 
     .posts-list {
         padding: 1rem 1.5rem;
-        max-height: 40vh;
+        max-height: calc(100vh - 200px);
     }
 
     .content {
