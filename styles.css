@@ -415,7 +415,7 @@ mark {
     }
 
     .content {
-        padding: 2rem 1.5rem;
+        padding: 5rem 1.5rem 2rem 1.5rem;
         max-width: 100%;
         height: auto;
         overflow-y: visible;
@@ -481,7 +481,7 @@ mark {
     }
 
     .content {
-        padding: 1.5rem 1rem;
+        padding: 5rem 1rem 1.5rem 1rem;
     }
 
     .search-box {
