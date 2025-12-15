@@ -313,41 +313,40 @@ mark {
     color: #000;
 }
 
-/* Mobile Controls Container */
+/* Mobile Controls Container - Top Bar */
 .mobile-controls {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    height: 56px;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
     z-index: 1001;
-    pointer-events: none;
-    height: 0;
+    align-items: center;
+    padding: 0 1rem;
 }
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    display: none;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 1001;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0.5rem;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    pointer-events: auto;
+    transition: background-color 0.2s;
+    border-radius: 8px;
 }
 
 .sidebar-toggle:hover {
     background-color: var(--hover-bg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar-toggle:active {
-    transform: scale(0.95);
+    background-color: var(--border-color);
 }
 
 .sidebar-toggle svg {
@@ -412,11 +411,9 @@ mark {
         min-height: 100vh;
     }
 
-    /* Show toggle button on mobile */
-    .sidebar-toggle {
-        display: block;
-        background-color: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+    /* Show mobile top bar */
+    .mobile-controls {
+        display: flex;
     }
 
     .sidebar {
@@ -453,7 +450,7 @@ mark {
     }
 
     .content {
-        padding: 5rem 1.5rem 2rem 1.5rem;
+        padding: calc(56px + 1rem) 1.5rem 2rem 1.5rem;
         max-width: 100%;
         height: auto;
         overflow-y: visible;
@@ -519,7 +516,7 @@ mark {
     }
 
     .content {
-        padding: 5rem 1rem 1.5rem 1rem;
+        padding: calc(56px + 1rem) 1rem 1.5rem 1rem;
     }
 
     .search-box {
