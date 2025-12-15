@@ -313,12 +313,23 @@ mark {
     color: #000;
 }
 
+/* Mobile Controls Container */
+.mobile-controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    pointer-events: none;
+    height: 0;
+}
+
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     display: none;
-    position: fixed !important;
-    top: 1rem !important;
-    left: 1rem !important;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
     z-index: 1001;
     background-color: var(--bg-primary);
     border: 1px solid var(--border-color);
@@ -328,11 +339,6 @@ mark {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     pointer-events: auto;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 .sidebar-toggle:hover {
@@ -341,7 +347,7 @@ mark {
 }
 
 .sidebar-toggle:active {
-    transform: translateZ(0) scale(0.95);
+    transform: scale(0.95);
 }
 
 .sidebar-toggle svg {
