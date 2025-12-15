@@ -175,6 +175,30 @@ body {
 .welcome-message p {
     color: var(--text-secondary);
     font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.welcome-social-icons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.welcome-social-icons a {
+    color: var(--text-primary);
+    transition: opacity 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.welcome-social-icons a:hover {
+    opacity: 0.6;
+    transform: translateY(-2px);
+}
+
+.welcome-social-icons svg {
+    width: 24px;
+    height: 24px;
 }
 
 /* Post Content */
@@ -303,6 +327,7 @@ mark {
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
 .sidebar-toggle:hover {
@@ -379,6 +404,8 @@ mark {
     /* Show toggle button on mobile */
     .sidebar-toggle {
         display: block;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
     }
 
     .sidebar {
