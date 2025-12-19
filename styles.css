@@ -430,6 +430,7 @@ mark {
         transition: transform 0.3s ease;
         z-index: 999;
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        padding-top: env(safe-area-inset-top);
     }
 
     .sidebar.open {
@@ -438,6 +439,7 @@ mark {
 
     .sidebar-header {
         padding: 1.5rem;
+        padding-top: max(1.5rem, env(safe-area-inset-top));
     }
 
     .sidebar-header h1 {
