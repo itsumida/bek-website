@@ -441,10 +441,16 @@ mark {
     .sidebar-header {
         padding: 1.5rem;
         flex-shrink: 0;
+        position: relative;
+        z-index: 1;
     }
 
     .sidebar-header h1 {
         font-size: 1.4rem;
+    }
+
+    .header-title {
+        margin-bottom: 1rem;
     }
 
     .posts-list {
