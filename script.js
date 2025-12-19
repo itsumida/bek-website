@@ -304,6 +304,8 @@ function setupSidebarToggle() {
             if (isOpen) {
                 overlay.classList.add('show');
                 document.body.style.overflow = 'hidden';
+                // Scroll sidebar to top to show header
+                sidebar.scrollTop = 0;
             } else {
                 overlay.classList.remove('show');
                 document.body.style.overflow = '';
