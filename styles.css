@@ -419,11 +419,11 @@ mark {
     .sidebar {
         position: fixed;
         left: 0;
-        top: 0;
+        top: 56px;
         width: 80%;
         max-width: 320px;
-        height: 100vh;
-        height: 100dvh; /* Dynamic viewport height for mobile */
+        height: calc(100vh - 56px);
+        height: calc(100dvh - 56px); /* Dynamic viewport height for mobile */
         border-right: 1px solid var(--border-color);
         border-bottom: none;
         background-color: var(--bg-secondary);
