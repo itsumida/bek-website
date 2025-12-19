@@ -444,14 +444,15 @@ mark {
     .sidebar-header {
         padding: 1.5rem !important;
         flex-shrink: 0 !important;
-        position: sticky !important;
+        position: relative !important;
         top: 0 !important;
         z-index: 10 !important;
-        background-color: var(--bg-primary) !important;
+        background-color: #ff0000 !important;
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        min-height: 100px !important;
+        min-height: 120px !important;
+        border: 5px solid blue !important;
     }
 
     .sidebar-header h1 {
