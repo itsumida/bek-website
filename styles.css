@@ -442,29 +442,42 @@ mark {
     }
 
     .sidebar-header {
-        padding: 1.5rem;
-        flex-shrink: 0;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background-color: var(--bg-primary);
+        padding: 1.5rem !important;
+        flex-shrink: 0 !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+        background-color: var(--bg-primary) !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        min-height: 100px !important;
     }
 
     .sidebar-header h1 {
-        font-size: 1.4rem;
+        font-size: 1.4rem !important;
+        display: block !important;
+        visibility: visible !important;
     }
 
     .header-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin-bottom: 1rem !important;
+        visibility: visible !important;
     }
 
     .social-icons {
-        display: flex;
-        gap: 0.75rem;
-        align-items: center;
+        display: flex !important;
+        gap: 0.75rem !important;
+        align-items: center !important;
+        visibility: visible !important;
+    }
+
+    .social-icons a {
+        display: flex !important;
+        visibility: visible !important;
     }
 
     .posts-list {
