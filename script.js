@@ -191,9 +191,15 @@ function showPost(postId) {
         day: 'numeric'
     });
 
+    // Add image if post has one
+    let contentHTML = post.content;
+    if (post.image) {
+        contentHTML = `<img src="${post.image}" alt="${post.title}" class="post-image" loading="lazy">` + contentHTML;
+    }
+
     // Apply highlighting if there's a search query
     if (currentSearchQuery) {
-        postBody.innerHTML = highlightText(post.content, currentSearchQuery);
+        postBody.innerHTML = highlightText(contentHTML, currentSearchQuery);
 
         // Scroll to first highlighted match after a short delay
         setTimeout(() => {
@@ -203,7 +209,7 @@ function showPost(postId) {
             }
         }, 100);
     } else {
-        postBody.innerHTML = post.content;
+        postBody.innerHTML = contentHTML;
         // Scroll to top when no search
         document.querySelector('.content').scrollTop = 0;
     }
