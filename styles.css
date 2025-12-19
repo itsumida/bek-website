@@ -459,6 +459,9 @@ mark {
         font-size: 1.4rem !important;
         display: block !important;
         visibility: visible !important;
+        color: white !important;
+        background-color: green !important;
+        padding: 10px !important;
     }
 
     .header-title {
@@ -467,6 +470,9 @@ mark {
         justify-content: space-between !important;
         margin-bottom: 1rem !important;
         visibility: visible !important;
+        background-color: yellow !important;
+        min-height: 40px !important;
+        padding: 10px !important;
     }
 
     .social-icons {
