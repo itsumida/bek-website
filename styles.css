@@ -423,6 +423,7 @@ mark {
         width: 80%;
         max-width: 320px;
         height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for mobile */
         border-right: 1px solid var(--border-color);
         border-bottom: none;
         background-color: var(--bg-secondary);
@@ -432,6 +433,8 @@ mark {
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
         overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
     .sidebar.open {
@@ -441,8 +444,10 @@ mark {
     .sidebar-header {
         padding: 1.5rem;
         flex-shrink: 0;
-        position: relative;
-        z-index: 1;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: var(--bg-primary);
     }
 
     .sidebar-header h1 {
